@@ -1,3 +1,6 @@
+#
+# Python3 version in 'ipython3.spec'
+#
 # TODO:
 # - check docs folder for valuable files
 #
@@ -5,16 +8,15 @@
 Summary:	An enhanced Interactive Python shell
 Summary(pl.UTF-8):	Interaktywna powłoka języka Python
 Name:		ipython
-Version:	0.11
+Version:	0.13
 Release:	1
 License:	LGPL
 Group:		Applications/Shells
 Source0:	http://archive.ipython.org/release/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	efc899e752a4a4a67a99575cea1719ef
-Patch0:		%{name}-zmq_detection.patch
+# Source0-md5:	490ccc2da9d6de9c37c7df05c1197ac5
 URL:		http://ipython.org
 BuildRequires:	pydoc
-BuildRequires:	python-devel
+BuildRequires:	python-devel >= 2.6
 BuildRequires:	python-devel-tools
 BuildRequires:	python-modules-sqlite
 BuildRequires:	rpm-pythonprov
@@ -123,7 +125,6 @@ Pakiet ten zawiera moduły interaktywnej powłoki języka Python.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -143,6 +144,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n python-ipython
 %defattr(644,root,root,755)
-%doc docs/README.txt docs/html
+%doc docs/README.txt docs/api_changes.txt 
 %{py_sitescriptdir}/%{pname}
 %{py_sitescriptdir}/*.egg-info
