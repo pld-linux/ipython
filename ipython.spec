@@ -128,8 +128,11 @@ Pakiet ten zawiera moduły interaktywnej powłoki języka Python.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 python ./setup.py install --optimize=2 --root=$RPM_BUILD_ROOT
+
+cp -r docs/examples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %py_postclean
 rm -rf $RPM_BUILD_ROOT%{_docdir}
@@ -147,3 +150,4 @@ rm -rf $RPM_BUILD_ROOT
 %doc docs/README.txt docs/api_changes.txt 
 %{py_sitescriptdir}/%{pname}
 %{py_sitescriptdir}/*.egg-info
+%{_examplesdir}/*
