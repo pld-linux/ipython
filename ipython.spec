@@ -22,6 +22,7 @@ BuildRequires:	python-modules-sqlite
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 Requires:	python-%{name} = %{version}-%{release}
+Suggests:	python-PyQt4
 Suggests:	python-zmq
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
