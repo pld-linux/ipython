@@ -8,12 +8,12 @@
 Summary:	An enhanced Interactive Python shell
 Summary(pl.UTF-8):	Interaktywna powłoka języka Python
 Name:		ipython
-Version:	0.13
-Release:	2
-License:	LGPL
+Version:	0.13.1
+Release:	1
+License:	BSD
 Group:		Applications/Shells
 Source0:	http://archive.ipython.org/release/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	490ccc2da9d6de9c37c7df05c1197ac5
+# Source0-md5:	ca7e75f7c802afc6aaa0a1ea59846420
 URL:		http://ipython.org
 BuildRequires:	pydoc
 BuildRequires:	python-devel >= 2.6
