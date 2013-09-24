@@ -8,12 +8,12 @@
 Summary:	An enhanced Interactive Python shell
 Summary(pl.UTF-8):	Interaktywna powłoka języka Python
 Name:		ipython
-Version:	0.13.2
+Version:	1.1.0
 Release:	1
 License:	BSD
 Group:		Applications/Shells
 Source0:	http://archive.ipython.org/release/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	ead3b7eb70c653b537fb9d96d71b8b2a
+# Source0-md5:	70d69c78122923879232567ac3c47cef
 URL:		http://ipython.org
 BuildRequires:	pydoc
 BuildRequires:	python-devel >= 2.6
@@ -133,7 +133,7 @@ install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 python ./setup.py install --optimize=2 --root=$RPM_BUILD_ROOT
 
-cp -r docs/examples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -r examples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %py_postclean
 rm -rf $RPM_BUILD_ROOT%{_docdir}
@@ -148,7 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n python-ipython
 %defattr(644,root,root,755)
-%doc docs/README.txt docs/api_changes.txt 
+%doc docs/README.rst
 %{py_sitescriptdir}/%{pname}
 %{py_sitescriptdir}/*.egg-info
 %{_examplesdir}/*
