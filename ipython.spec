@@ -157,7 +157,7 @@ Pakiet ten zawiera moduły interaktywnej powłoki języka Python.
 %py_build
 
 %if %{with tests}
-%{__python} IPythin/testing/iptest.py IPython
+%{__python} IPython/testing/iptest.py IPython
 %endif
 
 %if %{with doc}
@@ -179,7 +179,6 @@ cp -pr examples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 # test suite
 %{__rm} $RPM_BUILD_ROOT%{_bindir}/iptest*
 %{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/IPython/{testing,core/tests,extensions/tests,lib/tests,terminal/tests,utils/tests}
-#rm -rf $RPM_BUILD_ROOT%{_docdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
