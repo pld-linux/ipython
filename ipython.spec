@@ -1,28 +1,53 @@
+# NOTE: Python3 version in 'ipython3.spec'
 #
-# Python3 version in 'ipython3.spec'
-#
-# TODO:
-# - check docs folder for valuable files
-#
-%define		pname	IPython
+# Conditional build:
+%bcond_with	doc	# Sphinx documentation (need to wait for fulfilling dependencies in PLD)
+%bcond_with	tests	# unit tests (need to wait for fulfilling dependencies in PLD)
+
 Summary:	An enhanced Interactive Python shell
 Summary(pl.UTF-8):	Interaktywna powłoka języka Python
 Name:		ipython
-Version:	2.0.0
-Release:	3
+Version:	5.8.0
+Release:	1
 License:	BSD
 Group:		Applications/Shells
 Source0:	http://archive.ipython.org/release/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	dd209ff8c7b08565478e4fc04bdf33ee
-URL:		http://ipython.org
-BuildRequires:	pydoc
-BuildRequires:	python-devel >= 2.6
-BuildRequires:	python-devel-tools
-BuildRequires:	python-modules-sqlite
+# Source0-md5:	7014b8824981eef2cb893ea5398d6b8d
+Patch0:		%{name}-use-setuptools.patch
+URL:		http://ipython.org/
+BuildRequires:	pydoc >= 1:2.7
+BuildRequires:	python-devel >= 1:2.7
+BuildRequires:	python-devel-tools >= 1:2.7
+BuildRequires:	python-modules-sqlite >= 1:2.7
+BuildRequires:	python-setuptools >= 18.5
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.219
+BuildRequires:	rpmbuild(macros) >= 1.714
+%if %{with tests}
+BuildRequires:	python-backports-shutil_get_terminal_size
+BuildRequires:	python-decorator
+BuildRequires:	python-ipykernel
+BuildRequires:	python-mock
+BuildRequires:	python-nbformat
+BuildRequires:	python-nose >= 0.10.1
+BuildRequires:	python-pathlib2
+BuildRequires:	python-pexpect
+BuildRequires:	python-pickleshare
+BuildRequires:	python-prompt_toolkit >= 1.0.4
+BuildRequires:	python-prompt_toolkit < 2
+BuildRequires:	python-pygments
+BuildRequires:	python-requests
+BuildRequires:	python-simplegeneric >= 0.8
+BuildRequires:	python-testpath
+BuildRequires:	python-traitlets >= 4.2
+%endif
+%if %{with doc}
+BuildRequires:	python-docutils
+BuildRequires:	python-ipykernel
+BuildRequires:	python-sphinx_rtd_theme
+BuildRequires:	sphinx-pdg-2 >= 1.3
+%endif
 Requires:	python-%{name} = %{version}-%{release}
-Suggests:	python-PyQt4
+Suggests:	python-PyQt5
 Suggests:	python-zmq
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -76,9 +101,8 @@ Pakiet ten zawiera powłokę IPython.
 Summary:	An enhanced Interactive Python shell modules
 Summary(pl.UTF-8):	Moduły interaktywnej powłoki języka Python
 Group:		Libraries/Python
-%pyrequires_eq	python-devel-tools
-%pyrequires_eq	pydoc
-Requires:	python-jinja2
+Requires:	pydoc >= 1:2.7
+Requires:	python-devel-tools >= 1:2.7
 
 %description -n python-ipython
 IPython is a free software project which tries to:
@@ -127,6 +151,20 @@ Pakiet ten zawiera moduły interaktywnej powłoki języka Python.
 
 %prep
 %setup -q
+%patch0 -p1
+
+%build
+%py_build
+
+%if %{with tests}
+%{__python} IPythin/testing/iptest.py IPython
+%endif
+
+%if %{with doc}
+PYTHONPATH=$(pwd) \
+%{__make} -C docs html \
+	SPHINXBUILD=sphinx-build-2
+%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -134,22 +172,27 @@ install -d $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %py_install
 
-cp -r examples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
+cp -pr examples/* $RPM_BUILD_ROOT%{_examplesdir}/%{name}-%{version}
 
 %py_postclean
-rm -rf $RPM_BUILD_ROOT%{_docdir}
+
+# test suite
+%{__rm} $RPM_BUILD_ROOT%{_bindir}/iptest*
+%{__rm} -r $RPM_BUILD_ROOT%{py_sitescriptdir}/IPython/{testing,core/tests,extensions/tests,lib/tests,terminal/tests,utils/tests}
+#rm -rf $RPM_BUILD_ROOT%{_docdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
-%{_mandir}/man1/*
+%attr(755,root,root) %{_bindir}/ipython
+%attr(755,root,root) %{_bindir}/ipython2
+%{_mandir}/man1/ipython.1*
 
 %files -n python-ipython
 %defattr(644,root,root,755)
-%doc docs/README.rst
-%{py_sitescriptdir}/%{pname}
-%{py_sitescriptdir}/*.egg-info
-%{_examplesdir}/*
+%doc COPYING.rst README.rst
+%{py_sitescriptdir}/IPython
+%{py_sitescriptdir}/ipython-%{version}-py*.egg-info
+%{_examplesdir}/%{name}-%{version}

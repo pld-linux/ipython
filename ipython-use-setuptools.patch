@@ -1,0 +1,11 @@
+--- ipython-5.8.0/setup.py.orig	2018-07-29 02:24:17.000000000 +0200
++++ ipython-5.8.0/setup.py	2019-09-22 17:07:55.804397695 +0200
+@@ -169,7 +169,7 @@
+            'egg_info', 'easy_install', 'upload', 'install_egg_info',
+             ))
+ 
+-if len(needs_setuptools.intersection(sys.argv)) > 0:
++if True:
+     import setuptools
+ 
+ # This dict is used for passing extra arguments that are setuptools
