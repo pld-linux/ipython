@@ -1,18 +1,18 @@
 # NOTE: Python3 version in 'ipython3.spec'
 #
 # Conditional build:
-%bcond_with	doc	# Sphinx documentation (need to wait for fulfilling dependencies in PLD)
+%bcond_without	doc	# Sphinx documentation (disable for bootstrap)
 %bcond_with	tests	# unit tests (need to wait for fulfilling dependencies in PLD)
 
 Summary:	An enhanced Interactive Python shell
 Summary(pl.UTF-8):	Interaktywna powłoka języka Python
 Name:		ipython
-Version:	5.8.0
-Release:	2
+Version:	5.9.0
+Release:	1
 License:	BSD
 Group:		Applications/Shells
 Source0:	http://archive.ipython.org/release/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	7014b8824981eef2cb893ea5398d6b8d
+# Source0-md5:	9aae1bedd2d2f7761473085a4454f376
 Patch0:		%{name}-use-setuptools.patch
 URL:		http://ipython.org/
 BuildRequires:	pydoc >= 1:2.7
@@ -21,9 +21,9 @@ BuildRequires:	python-devel-tools >= 1:2.7
 BuildRequires:	python-modules-sqlite >= 1:2.7
 BuildRequires:	python-setuptools >= 18.5
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.714
+BuildRequires:	rpmbuild(macros) >= 1.747
 %if %{with tests}
-BuildRequires:	python-backports-shutil_get_terminal_size
+BuildRequires:	python-backports.shutil_get_terminal_size
 BuildRequires:	python-decorator
 BuildRequires:	python-ipykernel
 BuildRequires:	python-mock
@@ -153,16 +153,24 @@ Pakiet ten zawiera moduły interaktywnej powłoki języka Python.
 %setup -q
 %patch0 -p1
 
+%{__sed} -i -e '1s,/usr/bin/env python,%{__python},' \
+	examples/Embedding/embed_class_long.py \
+	"examples/IPython Kernel/ipython-get-history.py" \
+	"examples/IPython Kernel/gui"/gui-*.py
+
 %build
 %py_build
 
 %if %{with tests}
+LC_ALL=C.UTF-8 \
+PYTHONPATH=$(pwd) \
 %{__python} IPython/testing/iptest.py IPython
 %endif
 
 %if %{with doc}
 PYTHONPATH=$(pwd) \
 %{__make} -C docs html \
+	PYTHON=%{__python} \
 	SPHINXBUILD=sphinx-build-2
 %endif
 
