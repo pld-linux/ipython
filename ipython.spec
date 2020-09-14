@@ -7,12 +7,12 @@
 Summary:	An enhanced Interactive Python shell
 Summary(pl.UTF-8):	Interaktywna powłoka języka Python
 Name:		ipython
-Version:	5.9.0
+Version:	5.10.0
 Release:	1
 License:	BSD
 Group:		Applications/Shells
 Source0:	http://archive.ipython.org/release/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	9aae1bedd2d2f7761473085a4454f376
+# Source0-md5:	eae7393ed47415709df3823422571a49
 Patch0:		%{name}-use-setuptools.patch
 URL:		http://ipython.org/
 BuildRequires:	pydoc >= 1:2.7
@@ -34,7 +34,7 @@ BuildRequires:	python-pexpect
 BuildRequires:	python-pickleshare
 BuildRequires:	python-prompt_toolkit >= 1.0.4
 BuildRequires:	python-prompt_toolkit < 2
-BuildRequires:	python-pygments
+BuildRequires:	python-pygments < 2.6
 BuildRequires:	python-requests
 BuildRequires:	python-simplegeneric >= 0.8
 BuildRequires:	python-testpath
