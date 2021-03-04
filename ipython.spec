@@ -8,7 +8,7 @@ Summary:	An enhanced Interactive Python shell
 Summary(pl.UTF-8):	Interaktywna powłoka języka Python
 Name:		ipython
 Version:	5.10.0
-Release:	1
+Release:	2
 License:	BSD
 Group:		Applications/Shells
 Source0:	http://archive.ipython.org/release/%{version}/%{name}-%{version}.tar.gz
