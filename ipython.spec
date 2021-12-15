@@ -19,7 +19,7 @@ BuildRequires:	pydoc >= 1:2.7
 BuildRequires:	python-devel >= 1:2.7
 BuildRequires:	python-devel-tools >= 1:2.7
 BuildRequires:	python-modules-sqlite >= 1:2.7
-BuildRequires:	python-setuptools >= 18.5
+BuildRequires:	python-setuptools >= 1:18.5
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.747
 %if %{with tests}
