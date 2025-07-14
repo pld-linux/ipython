@@ -151,7 +151,7 @@ Pakiet ten zawiera moduły interaktywnej powłoki języka Python.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 %{__sed} -i -e '1s,/usr/bin/env python,%{__python},' \
 	examples/Embedding/embed_class_long.py \
